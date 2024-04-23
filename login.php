@@ -12,14 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $num = mysqli_num_rows($result);
     if ($num == 1) {
         while ($row = mysqli_fetch_assoc($result)) {
-            if (password_verify($password, $row["password"])) {
+            if ($row['password'] ==  $password) {
                 $login = true;
                 session_start();
                 $_SESSION['loggedin'] = true;
+                echo "Loggen in";
                 $_SESSION['username'] = $username;
                 // echo var_dump($_SESSION);
 
-                header("location: welcome.php");
+                header("location: index.php");
             } else {
                 $showError = true;
                 $error = "Invalid password";
