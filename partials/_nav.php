@@ -10,15 +10,23 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="./index.php">Home</a>
                 </li>
+                <?php
+                if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true){
+                	echo '
                 <li class="nav-item">
                     <a class="nav-link" href="./login.php">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./signup.php">SignUp</a>
-                </li>
+                </li>';
+                }
+                else{
+                	echo '
                 <li class="nav-item">
                     <a class="nav-link" href="./logout.php">LogOut</a>
-                </li>
+                </li>';
+                }
+                ?>
             </ul>
         </div>
     </nav>
