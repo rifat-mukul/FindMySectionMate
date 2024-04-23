@@ -2,6 +2,7 @@
 $login = false;
 $showError = false;
 $error = "";
+$time_out = 0.2;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'partials/_dbconnect.php';
     $username = $_POST["username"];
@@ -15,11 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($password, $row["password"])) {
                 $login = true;
                 session_start();
-                $_SESSION['loggedin'] = true;
+                $_SESSION['loggedin'] = time()+$time_out*60;;
+                echo "Loggen in";
                 $_SESSION['username'] = $username;
                 // echo var_dump($_SESSION);
 
-                header("location: welcome.php");
+                header("location: index.php");
             } else {
                 $showError = true;
                 $error = "Invalid password";
@@ -69,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2 class="text-center mb-5">LogIn To Bark</h2>
         <div class="row justify-content-center text-center">
             <div class="border border-success rounded-4 col-md-6">
-                <form class="p-3" action="/myProject/login_system/login.php" method="post">
+                <form class="p-3" action="./login.php" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">

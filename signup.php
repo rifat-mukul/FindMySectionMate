@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2 class="text-center mb-5">SignUp To Bark</h2>
         <div class="row justify-content-center text-center">
             <div class="border border-success rounded-4 col-md-6">
-                <form class="p-3" action="/myProject/login_system/signup.php" method="post">
+                <form class="p-3" action="./signup.php" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" maxlength="100" class="form-control" id="username" name="username" aria-describedby="emailHelp">
