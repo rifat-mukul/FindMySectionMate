@@ -82,6 +82,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" maxlength="100" class="form-control" id="username" name="username" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
+                        <label for="username" class="form-label">First Name</label>
+                        <input type="text" maxlength="100" class="form-control" id="username" name="f-name" aria-describedby="emailHelp" require>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Last Name</label>
+                        <input type="text" maxlength="100" class="form-control" id="username" name="l-name" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
