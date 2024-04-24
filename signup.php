@@ -14,11 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $exist = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($conn, $exist);
     $numRows = mysqli_num_rows($result);
-    if($numRows>0){
+    if ($numRows > 0) {
         $showError = true;
         $error = "Username alredy Exist !!!";
-    }
-    else {
+    } else {
         if ($password == $cpassword) {
             // when you use hash must take varchar 255 for the password 
             $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -48,8 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>signup</title>
     <link rel="shortcut icon" href="./images/add-user.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
-  
+
 <body>
     <?php
     require 'partials/_nav.php';
@@ -90,6 +90,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" maxlength="100" class="form-control" id="username" name="l-name" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
+                        <label for="username" class="form-label">Gmail</label>
+                        <input type="text" maxlength="100" class="form-control" id="username" name="gmail" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Gsuit</label>
+                        <input type="text" maxlength="100" class="form-control" id="username" name="gsuit" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="text" maxlength="100" class="form-control" id="dob" name="dob" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="h-town" class="form-label">Home Town</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Select Your Home Town</option>
+                            <option value="1">Dhaka</option>
+                            <option value="2">Chittagong</option>
+                            <option value="3">Khulna</option>
+                            <option value="4">Maymensingh</option>
+                            <option value="5">Rajshahi</option>
+                            <option value="6">Rangpur</option>
+                            <option value="7">Sylhet</option>
+                            <option value="8">Barisal</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
@@ -104,6 +130,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function() {
+            $("#dob").datepicker({
+                dateFormat: 'yy-mm-dd', // Format date as 'yyyy-mm-dd'
+                changeMonth: true, // Allow changing month
+                changeYear: true, // Allow changing year
+                yearRange: "-100:+0", // Set year range from 100 years ago to present
+                maxDate: '0' // Set max date to today's date
+            });
+        });
+    </script>
+
 </body>
 
 </html>
