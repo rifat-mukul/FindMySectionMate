@@ -29,6 +29,9 @@ if(isset($_COOKIE['loggedin']))
                 	echo '
                 <li class="nav-item">
                     <a class="nav-link" href="./logout.php">LogOut</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./modify.php">EditProfile</a>
                 </li>';
                 }
                 ?>
