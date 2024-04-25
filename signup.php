@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $showError = true;
         $error = "User alredy Exist !!!";
     } else {
-        if ($password == $cpassword && !empty($username) && !empty($fname) && !empty($lname) && !empty($gmail) && !empty($sid) && !empty($gsuit) && !empty(dob) && !empty($htown) && !empty($password)) {
+        if ($password == $cpassword && !empty($username) && !empty($fname) && !empty($lname) && !empty($gmail) && !empty($sid) && !empty($gsuit) && !empty($dob) && !empty($htown) && !empty($password)) {
             // when you use hash must take varchar 255 for the password 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             //$sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
