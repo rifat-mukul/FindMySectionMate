@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $showError = true;
         $error = "User alredy Exist !!!";
     } else {
-        if ($password == $cpassword) {
+        if ($password == $cpassword && !empty($username) && !empty($fname) && !empty($lname) && !empty($gmail) && !empty($sid) && !empty($gsuit) && !empty(dob) && !empty($htown) && !empty($password)) {
             // when you use hash must take varchar 255 for the password 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             //$sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
@@ -37,6 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $showError = true;
                 $error = "Failed to insert record!";
             }
+        } else if ($password == $cpassword) {
+            $showError = true;
+            $error = "Incomplete fourm!";
         } else {
             $showError = true;
             $error = "Passwords do not match!";
@@ -86,35 +89,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="border border-success rounded-4 col-md-6">
                 <form class="p-3" action="./signup.php" method="post">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
+                        <label for="username" class="form-label">Username<a style="color:red">*</a></label>
                         <input type="text" maxlength="100" class="form-control" id="username" name="username" placeholder="abc00" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="f-name" class="form-label">First Name</label>
+                        <label for="f-name" class="form-label">First Name<a style="color:red">*</a></label>
                         <input type="text" maxlength="100" class="form-control" id="f-name" name="f-name" aria-describedby="emailHelp" require>
                     </div>
                     <div class="mb-3">
-                        <label for="l-name" class="form-label">Last Name</label>
+                        <label for="l-name" class="form-label">Last Name<a style="color:red">*</a></label>
                         <input type="text" maxlength="100" class="form-control" id="l-name" name="l-name" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="gmail" class="form-label">Gmail</label>
+                        <label for="gmail" class="form-label">Gmail<a style="color:red">*</a></label>
                         <input type="text" maxlength="100" class="form-control" id="gmail" name="gmail" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="s_id" class="form-label">Student ID</label>
+                        <label for="s_id" class="form-label">Student ID<a style="color:red">*</a></label>
                         <input type="text" maxlength="100" class="form-control" id="s_id" name="s_id" aria-describedby="emailHelp" require>
                     </div>
                     <div class="mb-3">
-                        <label for="gsuit" class="form-label">Gsuit</label>
+                        <label for="gsuit" class="form-label">Gsuit<a style="color:red">*</a></label>
                         <input type="text" maxlength="100" class="form-control" id="gsuit" name="gsuit" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="dob" class="form-label">Date of Birth</label>
+                        <label for="dob" class="form-label">Date of Birth<a style="color:red">*</a></label>
                         <input type="text" maxlength="100" class="form-control" id="dob" name="dob" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="h-town" class="form-label">Home Town</label>
+                        <label for="h-town" class="form-label">Home Town<a style="color:red">*</a></label>
                         <select class="form-select" id="h-town" name="h-town" aria-label="Default select example">
                             <option selected>Select Your Home Town</option>
                             <option value="Dhaka">Dhaka</option>
@@ -128,11 +131,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">Password<a style="color:red">*</a></label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <div class="mb-3">
-                        <label for="cpassword" class="form-label">Confirm Password</label>
+                        <label for="cpassword" class="form-label">Confirm Password<a style="color:red">*</a></label>
                         <input type="password" class="form-control" id="cpassword" name="cpassword">
                         <small id="cpassword" class="form-text text-muted">make sure you type the same password</small>
                     </div>
