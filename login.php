@@ -8,15 +8,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
     // $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
-    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $sql = "SELECT * FROM signup WHERE username = '$username'";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
     if ($num == 1) {
         while ($row = mysqli_fetch_assoc($result)) {
-            if (password_verify($password, $row["password"])) {
+            if (password_verify($password, $row["password_"])) {
                 $login = true;
                 session_start();
-                $_SESSION['loggedin'] = time()+$time_out*60;;
+                $_SESSION['loggedin'] = time() + $time_out * 60;;
                 echo "Loggen in";
                 $_SESSION['username'] = $username;
                 // echo var_dump($_SESSION);
@@ -76,10 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Gsuit</label>
-                        <input type="text" maxlength="100" class="form-control" id="username" name="gsuit" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>

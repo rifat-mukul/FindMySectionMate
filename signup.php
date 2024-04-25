@@ -5,23 +5,31 @@ $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'partials/_dbconnect.php';
     $username = $_POST["username"];
+    $fname = $_POST["f-name"];
+    $lname = $_POST["l-name"];
+    $gmail = $_POST["gmail"];
+    $sid = $_POST["s_id"];
+    $gsuit = $_POST["gsuit"];
+    $dob = $_POST["dob"];
+    $htown = $_POST["h-town"];
     $password = $_POST["password"];
     $cpassword = $_POST["cpassword"];
     $exists = false;
     // https://youtu.be/PnqppM2t_hk?list=PLu0W_9lII9aikXkRE0WxDt1vozo3hnmtR&t=349
     // use of exixst
     // for ensuring the primary key 
-    $exist = "SELECT * FROM users WHERE username = '$username'";
+    $exist = "SELECT * FROM signup WHERE std_id = '$sid'";
     $result = mysqli_query($conn, $exist);
     $numRows = mysqli_num_rows($result);
     if ($numRows > 0) {
         $showError = true;
-        $error = "Username alredy Exist !!!";
+        $error = "User alredy Exist !!!";
     } else {
         if ($password == $cpassword) {
             // when you use hash must take varchar 255 for the password 
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
+            //$sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
+            $sql = "INSERT INTO signup (username, first_name, last_name, gmail, std_id, gsuit, dob, home_town, password_) VALUES ('$username', '$fname', '$lname', '$gmail', '$sid', '$gsuit', '$dob', '$htown', '$hash')";
             $result = mysqli_query($conn, $sql);
             if ($result) {
                 $showAlart  = true;
@@ -82,20 +90,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" maxlength="100" class="form-control" id="username" name="username" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="username" class="form-label">First Name</label>
-                        <input type="text" maxlength="100" class="form-control" id="username" name="f-name" aria-describedby="emailHelp" require>
+                        <label for="f-name" class="form-label">First Name</label>
+                        <input type="text" maxlength="100" class="form-control" id="f-name" name="f-name" aria-describedby="emailHelp" require>
                     </div>
                     <div class="mb-3">
-                        <label for="username" class="form-label">Last Name</label>
-                        <input type="text" maxlength="100" class="form-control" id="username" name="l-name" aria-describedby="emailHelp">
+                        <label for="l-name" class="form-label">Last Name</label>
+                        <input type="text" maxlength="100" class="form-control" id="l-name" name="l-name" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="username" class="form-label">Gmail</label>
-                        <input type="text" maxlength="100" class="form-control" id="username" name="gmail" aria-describedby="emailHelp">
+                        <label for="gmail" class="form-label">Gmail</label>
+                        <input type="text" maxlength="100" class="form-control" id="gmail" name="gmail" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="username" class="form-label">Gsuit</label>
-                        <input type="text" maxlength="100" class="form-control" id="username" name="gsuit" aria-describedby="emailHelp">
+                        <label for="s_id" class="form-label">Student ID</label>
+                        <input type="text" maxlength="100" class="form-control" id="s_id" name="s_id" aria-describedby="emailHelp" require>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gsuit" class="form-label">Gsuit</label>
+                        <input type="text" maxlength="100" class="form-control" id="gsuit" name="gsuit" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="dob" class="form-label">Date of Birth</label>
@@ -103,16 +115,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="mb-3">
                         <label for="h-town" class="form-label">Home Town</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" id="h-town" name="h-town" aria-label="Default select example">
                             <option selected>Select Your Home Town</option>
-                            <option value="1">Dhaka</option>
-                            <option value="2">Chittagong</option>
-                            <option value="3">Khulna</option>
-                            <option value="4">Maymensingh</option>
-                            <option value="5">Rajshahi</option>
-                            <option value="6">Rangpur</option>
-                            <option value="7">Sylhet</option>
-                            <option value="8">Barisal</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chittagong">Chittagong</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Maymensingh">Maymensingh</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Rangpur">Rangpur</option>
+                            <option value="Sylhet">Sylhet</option>
+                            <option value="Barisal">Barisal</option>
                         </select>
                     </div>
                     <div class="mb-3">
