@@ -2,7 +2,7 @@
 $login = false;
 $showError = false;
 $error = "";
-$time_out = 0.2;
+$time_out = 2;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'partials/_dbconnect.php';
     $username = $_POST["username"];
