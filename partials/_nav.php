@@ -1,3 +1,8 @@
+<?php
+if(isset($_COOKIE['loggedin']))
+	$_SESSION['loggedin'] = $_COOKIE['loggedin'];
+?>
+
 <div class="container bg-secondary text-dark rounded-4 fw-bold">
     <nav class="navbar navbar-expand-lg bg-body-tertiary>
 
