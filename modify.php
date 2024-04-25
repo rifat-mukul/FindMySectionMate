@@ -2,8 +2,10 @@
 $showAlart = false;
 $showError = false;
 $error = "";
+if(!isset($_COOKIE['user_id']))
+    header("location: login.php");
+include 'partials/_dbconnect.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include 'partials/_dbconnect.php';
     $username = $_POST["username"];
     $fname = $_POST["f-name"];
     $lname = $_POST["l-name"];
@@ -12,41 +14,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gsuit = $_POST["gsuit"];
     $dob = $_POST["dob"];
     $htown = $_POST["h-town"];
-    $password = $_POST["password"];
     $cpassword = $_POST["cpassword"];
     $exists = false;
-    // https://youtu.be/PnqppM2t_hk?list=PLu0W_9lII9aikXkRE0WxDt1vozo3hnmtR&t=349
-    // use of exixst
-    // for ensuring the primary key 
-    $exist = "SELECT * FROM signup WHERE std_id = '$sid'";
-    $result = mysqli_query($conn, $exist);
-    $numRows = mysqli_num_rows($result);
-    if ($numRows > 0) {
-        $showError = true;
-        $error = "User alredy Exist !!!";
-    } else {
-        if ($password == $cpassword && !empty($username) && !empty($fname) && !empty($lname) && !empty($gmail) && !empty($sid) && !empty($gsuit) && !empty($dob) && !empty($htown) && !empty($password)) {
-            // when you use hash must take varchar 255 for the password 
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            //$sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
-            $sql = "INSERT INTO signup (username, first_name, last_name, gmail, std_id, gsuit, dob, home_town, password_) VALUES ('$username', '$fname', '$lname', '$gmail', '$sid', '$gsuit', '$dob', '$htown', '$hash')";
-            $result = mysqli_query($conn, $sql);
-            if ($result) {
-                $showAlart  = true;
+    $msql = "update signup set first_name = '$fname',gmail = '$gmail',last_name = '$lname',gsuit = '$gsuit',dob = '$dob',home_town = '$htown' WHERE std_id = $sid";
+    
+    $sql = "SELECT * FROM signup WHERE username = '$username'";
+    $result = mysqli_query($conn, $sql);
+    $num = mysqli_num_rows($result);
+    if ($num == 1) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if (password_verify($cpassword, $row["password_"])) {
+                if(!empty($fname) && !empty($lname) && !empty($gmail) && !empty($gsuit) && !empty($dob) && !empty($htown)){               	
+					mysqli_query($conn, $msql);
+				    header("location: modify.php");
+				    }
             } else {
                 $showError = true;
-                $error = "Failed to insert record!";
+                $error = "Invalid password".$msql;
             }
-        } else if ($password == $cpassword) {
-            $showError = true;
-            $error = "Incomplete fourm!";
-        } else {
-            $showError = true;
-            $error = "Passwords do not match!";
         }
+    } else {
+        $showError = true;
+        $error = "Invalid Credentials";
+        header("location: logout.php");
     }
 }
 
+$user_id = $_COOKIE['user_id'];
+$sql = "SELECT * FROM signup WHERE std_id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($result)){
+	$sql = "INSERT INTO signup (username, first_name, last_name, gmail, std_id, gsuit, dob, home_town, password_) VALUES ('$username', '$fname', '$lname', '$gmail', '$sid', '$gsuit', '$dob', '$htown', '$hash')";
+	$user_name = $row['username'];
+	$last_name = $row['last_name'];
+	$first_name = $row['first_name'];
+	$gsuit = $row['gsuit'];
+	$gmail = $row['gmail'];
+	$sid = $row['std_id'];
+	$dob = $row['dob'];
+	$htown = $row['home_town'];
+}
 ?>
 
 <!doctype html>
@@ -55,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>signup</title>
+    <title>Edit Profile</title>
     <link rel="shortcut icon" href="./images/add-user.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -87,59 +94,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2 class="text-center mb-5">SignUp To Bark</h2>
         <div class="row justify-content-center text-center">
             <div class="border border-success rounded-4 col-md-6">
-                <form class="p-3" action="./signup.php" method="post">
+                <form class="p-3" action="./modify.php" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username<a style="color:red">*</a></label>
-                        <input type="text" maxlength="100" class="form-control" id="username" name="username" placeholder="abc00" aria-describedby="emailHelp">
+                        <input type="text" maxlength="100" class="form-control" id="username" name="username" placeholder="abc00" aria-describedby="emailHelp" value='<?php echo $user_name?>' readonly>
                     </div>
                     <div class="mb-3">
                         <label for="f-name" class="form-label">First Name<a style="color:red">*</a></label>
-                        <input type="text" maxlength="100" class="form-control" id="f-name" name="f-name" aria-describedby="emailHelp" require>
+                        <input type="text" maxlength="100" class="form-control" id="f-name" name="f-name" aria-describedby="emailHelp" require value='<?php echo $first_name?>'>
                     </div>
                     <div class="mb-3">
                         <label for="l-name" class="form-label">Last Name<a style="color:red">*</a></label>
-                        <input type="text" maxlength="100" class="form-control" id="l-name" name="l-name" aria-describedby="emailHelp">
+                        <input type="text" maxlength="100" class="form-control" id="l-name" name="l-name" aria-describedby="emailHelp" value='<?php echo $last_name?>'>
                     </div>
                     <div class="mb-3">
                         <label for="gmail" class="form-label">Gmail<a style="color:red">*</a></label>
-                        <input type="text" maxlength="100" class="form-control" id="gmail" name="gmail" aria-describedby="emailHelp">
+                        <input type="text" maxlength="100" class="form-control" id="gmail" name="gmail" aria-describedby="emailHelp" value='<?php echo $gmail?>'>
                     </div>
                     <div class="mb-3">
                         <label for="s_id" class="form-label">Student ID<a style="color:red">*</a></label>
-                        <input type="text" maxlength="100" class="form-control" id="s_id" name="s_id" aria-describedby="emailHelp" require>
+                        <input type="text" maxlength="100" class="form-control" id="s_id" name="s_id" aria-describedby="emailHelp" require value='<?php echo $sid?>' readonly>
                     </div>
                     <div class="mb-3">
                         <label for="gsuit" class="form-label">Gsuit<a style="color:red">*</a></label>
-                        <input type="text" maxlength="100" class="form-control" id="gsuit" name="gsuit" aria-describedby="emailHelp">
+                        <input type="text" maxlength="100" class="form-control" id="gsuit" name="gsuit" aria-describedby="emailHelp" value='<?php echo $gsuit?>'>
                     </div>
                     <div class="mb-3">
                         <label for="dob" class="form-label">Date of Birth<a style="color:red">*</a></label>
-                        <input type="text" maxlength="100" class="form-control" id="dob" name="dob" aria-describedby="emailHelp">
+                        <input type="text" maxlength="100" class="form-control" id="dob" name="dob" aria-describedby="emailHelp" value='<?php echo $dob?>'>
                     </div>
                     <div class="mb-3">
                         <label for="h-town" class="form-label">Home Town<a style="color:red">*</a></label>
-                        <select class="form-select" id="h-town" name="h-town" aria-label="Default select example">
-                            <option selected>Select Your Home Town</option>
-                            <option value="Dhaka">Dhaka</option>
-                            <option value="Chittagong">Chittagong</option>
-                            <option value="Khulna">Khulna</option>
-                            <option value="Maymensingh">Maymensingh</option>
-                            <option value="Rajshahi">Rajshahi</option>
-                            <option value="Rangpur">Rangpur</option>
-                            <option value="Sylhet">Sylhet</option>
-                            <option value="Barisal">Barisal</option>
+                        <select class="form-select" id="h-town" name="h-town" aria-label="Default select example" value='<?php echo $htown?>'>
+                        	<?php
+                        		$towns = array("Dhaka", "Chittagong", "Khulna", "Maymensingh","Rajshahi","Rangpur","Sylhet","Barisal");
+                        		foreach($towns as $city){
+                        			if($htown == $city)
+                        				echo "<option value='$city' selected>$city</option>";
+                        			else
+                        				echo "<option value='$city'>$city</option>";
+                        		}
+                        	?>
                         </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password<a style="color:red">*</a></label>
-                        <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <div class="mb-3">
                         <label for="cpassword" class="form-label">Confirm Password<a style="color:red">*</a></label>
                         <input type="password" class="form-control" id="cpassword" name="cpassword">
                         <small id="cpassword" class="form-text text-muted">make sure you type the same password</small>
                     </div>
-                    <button type="submit" class="btn btn-primary col-12">SignUp</button>
+                    <button type="submit" class="btn btn-primary col-12">SaveData</button>
                 </form>
             </div>
         </div>

@@ -4,6 +4,7 @@
 session_start();
 session_unset();
 session_destroy();
+setcookie('loggedin',false);
 header("location: login.php");
 exit;
 ?>

@@ -11,8 +11,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
   exit;
 }
 if($_SESSION['loggedin'] < time()){
-       $_SESSION['loggedin'] = false;
-       header("location:login.php");
+       header("location:logout.php");
 }
 
 ?>

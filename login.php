@@ -2,7 +2,7 @@
 $login = false;
 $showError = false;
 $error = "";
-$time_out = 0.2;
+$time_out = 2;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'partials/_dbconnect.php';
     $username = $_POST["username"];
@@ -17,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $login = true;
                 session_start();
                 $_SESSION['loggedin'] = time() + $time_out * 60;;
+                setcookie('loggedin',$_SESSION['loggedin']);
+                setcookie('user_id',$row['std_id']);
                 echo "Loggen in";
                 $_SESSION['username'] = $username;
                 // echo var_dump($_SESSION);
