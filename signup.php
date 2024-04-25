@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form class="p-3" action="./signup.php" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" maxlength="100" class="form-control" id="username" name="username" aria-describedby="emailHelp">
+                        <input type="text" maxlength="100" class="form-control" id="username" name="username" placeholder="abc00" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="f-name" class="form-label">First Name</label>
