@@ -27,6 +27,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./modify.php">EditProfile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./course.php">EditCourse</a>
                 </li>';
                 }
                 ?>
