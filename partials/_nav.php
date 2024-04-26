@@ -1,9 +1,4 @@
-<?php
-session_start();
-$out_page = ['/login.php','/signup.php'];
-if(!isset($_SESSION['loggedin']) && !in_array($_SERVER['REQUEST_URI'],$out_page))
-   header("location:logout.php");
-?>
+
 
 <div class="container bg-secondary text-dark rounded-4 fw-bold">
     <nav class="navbar navbar-expand-lg bg-body-tertiary>
