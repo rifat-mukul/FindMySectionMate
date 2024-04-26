@@ -16,9 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($password, $row["password_"])) {
                 $login = true;
                 session_start();
-                $_SESSION['loggedin'] = time() + $time_out * 60;;
-                setcookie('loggedin',$_SESSION['loggedin']);
-                setcookie('user_id',$row['std_id']);
+                $_SESSION['loggedin'] = time() + $time_out * 60;
+                $_SESSION['user_id'] = $row['std_id'];
                 echo "Loggen in";
                 $_SESSION['username'] = $username;
                 // echo var_dump($_SESSION);

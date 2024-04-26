@@ -1,6 +1,8 @@
 <?php
-if(isset($_COOKIE['loggedin']))
-	$_SESSION['loggedin'] = $_COOKIE['loggedin'];
+session_start();
+$out_page = ['/login.php','/signup.php'];
+if(!isset($_SESSION['loggedin']) && !in_array($_SERVER['REQUEST_URI'],$out_page))
+   header("location:logout.php");
 ?>
 
 <div class="container bg-secondary text-dark rounded-4 fw-bold">
@@ -32,6 +34,9 @@ if(isset($_COOKIE['loggedin']))
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./modify.php">EditProfile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./course.php">EditCourse</a>
                 </li>';
                 }
                 ?>

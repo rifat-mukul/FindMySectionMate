@@ -2,8 +2,9 @@
 $showAlart = false;
 $showError = false;
 $error = "";
-if(!isset($_COOKIE['user_id']))
-    header("location: login.php");
+session_start();
+if(!isset($_SESSION['user_id']))
+    header("location: logout.php");
 include 'partials/_dbconnect.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
@@ -40,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$user_id = $_COOKIE['user_id'];
+$user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM signup WHERE std_id = '$user_id'";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($result)){
