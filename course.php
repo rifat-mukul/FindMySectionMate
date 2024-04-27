@@ -4,6 +4,7 @@ $showError = false;
 $error = "";
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	var_dump($_SESSION['c_tab']);
 	if(isset($_POST['add']))
 		$_SESSION['f_size']++;
 	else if(isset($_POST['action'])){
@@ -18,12 +19,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			    $showError = true;
 			    $error = "Failed to store course $i!";
 			}
-			while(isset($_POST["c_field".$i]) && isset($_POST["s_field".$i]) && !empty($_POST["s_field".$i])){
+			while($i < $_SESSION['f_size']){
 				if(!preg_match("/^[a-zA-Z]{3}[0-9]{3}$/", $_POST["c_field".$i])){
 					$showError = true;
-					$error = "Incorrect Course";
-					break;
+					$error = "Incorrect Course $i";				
+					$i++;
+					continue;
 				}
+				if(!(isset($_POST["c_field".$i]) && isset($_POST["s_field".$i]) && !empty($_POST["s_field".$i])))
+					continue;
 				$c_code = strtoupper($_POST["c_field".$i]);
 				$s_code = $_POST["s_field".$i];
 				$sql = "INSERT INTO courses VALUES ('$user_id', '$c_code', '$s_code')";
@@ -41,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$indx = $_POST['remove_field'] + 1;
 			$error = "Field $indx removed";
 			$_SESSION['f_size']--;
+			array_splice($_SESSION['c_tab'], $indx-1, 1);
+			array_splice($_SESSION['s_tab'], $indx-1, 1);
 		}
 }else{
 	include 'partials/_dbconnect.php';
