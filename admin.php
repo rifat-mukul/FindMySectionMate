@@ -20,6 +20,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$showError = true;
 			$error = "Change failed";
 		}
+    }else if(isset($_POST["delete_id"])){
+    	$cuser_id = $_POST["delete_id"];
+		$sql = "delete from courses where student_id = '$cuser_id'";
+		$result = mysqli_query($conn, $sql);
+		if(!$result){
+			$showError = true;
+			$error = "Change failed";
+		}
+		$sql = "delete from role where student_id = '$cuser_id'";
+		$result = mysqli_query($conn, $sql);
+		if(!$result){
+			$showError = true;
+			$error = "Change failed";
+		}
+		$sql = "delete from signup where std_id = '$cuser_id'";
+		$result = mysqli_query($conn, $sql);
+		if(!$result){
+			$showError = true;
+			$error = "Change failed";
+		}
     }
 } 
 ?>
@@ -91,14 +111,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				  </thead>
 				  <tbody>
 				  	<?php
-					$sql = "SELECT * FROM signup inner join role on std_id = student_id WHERE admin = 0 and not otp = 0";
+					$sql = "SELECT * FROM signup left join role on std_id = student_id WHERE (admin is NULL or admin = 0) and not otp = 0";
 					$result = mysqli_query($conn, $sql);
 					$num = mysqli_num_rows($result);
 					if($num > 0){
 						$c_table = array();
 						$s_table = array();
 						while ($row = mysqli_fetch_assoc($result)) {
-							$cuser_name = $row["first_name"].' '.$row["last_name"];
+							$cuser_name = $row["username"];
 							$cuser_otp = $row["otp"];
 							$cuser_gsuit = $row["gsuit"];
 							$mailtoLink = "mailto:$cuser_gsuit?subject="."OTP for Section Mate Finder"."&body=Hi%0D%0AThis is an automated mail%0D%0AYour OTP is $cuser_otp%0D%0APlease do not share to anyone";
@@ -120,6 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					  <th scope="col">Name</th>
 					  <th scope="col">Student ID</th>
 					  <th scope="col">Adminer</th>
+					  <th scope="col">Remover</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -133,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						while ($row = mysqli_fetch_assoc($result)) {
 							if($_SESSION['user_id'] == $row["std_id"])
 								continue;
-							$cuser_name = $row["first_name"].' '.$row["last_name"];
+							$cuser_name = $row["username"];
 							$cuser_id = $row["std_id"];
 							$cuser_admin = $row["admin"];
 							if($cuser_admin == "")
@@ -144,7 +165,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 							 if($cuser_admin == "1")
 							  echo "<td><button class='btn btn-secondary' name='remove_admin' value='$cuser_id'>Remove as Admin</button></td>";
 							 else
-							  echo "<td><button class='btn btn-secondary' name='add_admin' value='$cuser_id'>Add as Admin</button></td>";
+							  echo "<td><button class='btn btn-dark' name='add_admin' value='$cuser_id'>Add as Admin</button></td>";
+							echo "<td><button class='btn btn-danger' name='delete_id' value='$cuser_id'>Delete Account</button></td>";
 							echo "</tr>";
 						}
 					}

@@ -19,6 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $exist = "SELECT * FROM signup WHERE std_id = '$sid'";
     $result = mysqli_query($conn, $exist);
     $numRows = mysqli_num_rows($result);
+    if(empty($dob))
+    	$dob = 'NULL';
     if ($numRows > 0) {
         $showError = true;
         $error = "User alredy Exist !!!";
@@ -27,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // when you use hash must take varchar 255 for the password 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             //$sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
-            $sql = "INSERT INTO signup (username, first_name, last_name, gmail, std_id, gsuit, dob, home_town, password_,otp) VALUES ('$username', '$fname', '$lname', '$gmail', '$sid', '$gsuit', '$dob', '$htown', '$hash','$otp')";
+            $sql = "INSERT INTO signup (username, first_name, last_name, gmail, std_id, gsuit, dob, home_town, password_,otp) VALUES ('$username', '$fname', '$lname', '$gmail', '$sid', '$gsuit', $dob, '$htown', '$hash','$otp')";
             $result = mysqli_query($conn, $sql);
             if ($result) {
                 $showAlart  = true;
