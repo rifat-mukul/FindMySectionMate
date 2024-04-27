@@ -90,9 +90,25 @@
                 <p class="m-3 fw-bolder fs-4 text-center">After finding your mate please <a href="./logout.php" class="btn btn-outline-danger">Logout</a> </p>
             </div>
         </div>
+
+        <div class="otp-design m-5">
+            <form class="p-3" action="./index.php" method="post">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="container d-flex align-items-center"> 
+                        <div class="col-10 me-3"> 
+                            <input type="text" class="form-control otp-input" name="iotp" aria-describedby="emailHelp" placeholder="Enter Your OTP">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-outline-success">Submit OTP</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
-
