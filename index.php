@@ -16,7 +16,7 @@ if ($_SESSION['loggedin'] < time()) {
 
 include 'partials/_dbconnect.php';
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM signup inner join role on std_id = student_id WHERE std_id = '$user_id'";
+$sql = "SELECT * FROM signup left join role on std_id = student_id WHERE std_id = '$user_id'";
 $result = mysqli_query($conn, $sql);
 $num = mysqli_num_rows($result);
 if ($num == 1) {
