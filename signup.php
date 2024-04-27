@@ -14,10 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $htown = $_POST["h-town"];
     $password = $_POST["password"];
     $cpassword = $_POST["cpassword"];
+    $otp = rand(100000,999999);
     $exists = false;
-    // https://youtu.be/PnqppM2t_hk?list=PLu0W_9lII9aikXkRE0WxDt1vozo3hnmtR&t=349
-    // use of exixst
-    // for ensuring the primary key 
     $exist = "SELECT * FROM signup WHERE std_id = '$sid'";
     $result = mysqli_query($conn, $exist);
     $numRows = mysqli_num_rows($result);
@@ -29,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // when you use hash must take varchar 255 for the password 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             //$sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
-            $sql = "INSERT INTO signup (username, first_name, last_name, gmail, std_id, gsuit, dob, home_town, password_) VALUES ('$username', '$fname', '$lname', '$gmail', '$sid', '$gsuit', '$dob', '$htown', '$hash')";
+            $sql = "INSERT INTO signup (username, first_name, last_name, gmail, std_id, gsuit, dob, home_town, password_,otp) VALUES ('$username', '$fname', '$lname', '$gmail', '$sid', '$gsuit', '$dob', '$htown', '$hash','$otp')";
             $result = mysqli_query($conn, $sql);
             if ($result) {
                 $showAlart  = true;
