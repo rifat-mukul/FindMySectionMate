@@ -34,6 +34,12 @@
                     <a class="nav-link" href="./course.php">EditCourse</a>
                 </li>';
                 }
+                if($_SESSION['adminable'] == 1){
+                	echo '
+                <li class="nav-item">
+                    <a class="nav-link" href="./admin.php">Admin</a>
+                </li>';
+                }
                 ?>
             </ul>
         </div>
