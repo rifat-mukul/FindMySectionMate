@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				  </thead>
 				  <tbody>
 				  	<?php
-					$sql = "SELECT * FROM signup left join role on std_id = student_id";
+					$sql = "SELECT * FROM signup left join role on std_id = student_id where otp = 0";
 					$result = mysqli_query($conn, $sql);
 					$num = mysqli_num_rows($result);
 					if($num > 0){
